@@ -1,0 +1,39 @@
+{
+  "name": "olx-clone",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-native-scripts": "1.5.0",
+    "jest-expo": "^21.0.2",
+    "react-test-renderer": "16.0.0-alpha.12"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "serve": "json-server generate.js"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^5.2.0",
+    "@ptomasroos/react-native-multi-slider": "0.0.11",
+    "expo": "^21.0.0",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.4",
+    "native-base": "^2.3.3",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.48.4",
+    "react-native-button": "^2.1.0",
+    "react-native-multi-slider": "^0.3.6",
+    "react-native-slider": "^0.11.0",
+    "react-navigation": "^1.0.0-beta.14",
+    "redux-promise-middleware": "^4.4.1",
+    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.2.0"
+  }
+}
