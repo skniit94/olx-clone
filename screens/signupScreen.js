@@ -34,6 +34,7 @@ import {
   Input
 } from "native-base";
 import { NavigationActions } from "react-navigation";
+import * as firebase from "firebase";
 
 class SignupScreen extends Component {
   constructor(props) {
@@ -41,9 +42,27 @@ class SignupScreen extends Component {
     this.state = { emailId: "", password: "", confPassword: "" };
   }
 
+  async signup(email, pass) {
+    try {
+      await firebase.auth().createUserWithEmailAndPassword(email, pass);
+
+      console.log("Account created");
+
+      // Navigate to the Home page, the user is auto logged in
+    } catch (error) {
+      console.log(error.toString());
+    }
+  }
+
   render() {
     return (
-      <View>
+      <View
+        style={{
+          backgroundColor: "#FFFFFF",
+          width: "100%",
+          height: "100%"
+        }}
+      >
         <Header>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
@@ -56,20 +75,20 @@ class SignupScreen extends Component {
           <Right />
         </Header>
         <View style={styles.signup}>
-          <Item rounded style={{ marginBottom: 10 }}>
+          <Item style={{ marginBottom: 10 }}>
             <Input
               placeholder="EmailId"
               onChangeText={text => this.setState({ emailId: text })}
             />
           </Item>
-          <Item rounded style={{ marginBottom: 10 }}>
+          <Item style={{ marginBottom: 10 }}>
             <Input
               secureTextEntry="true"
               placeholder="Password"
               onChangeText={text => this.setState({ password: text })}
             />
           </Item>
-          <Item rounded style={{ marginBottom: 10 }}>
+          <Item style={{ marginBottom: 10 }}>
             <Input
               secureTextEntry="true"
               placeholder="Confirm Password"
@@ -83,10 +102,13 @@ class SignupScreen extends Component {
               if (this.state.password != this.state.confPassword)
                 alert("Passwords do not match");
               else {
-                this.props.actions.addUsers(
+                {
+                  /* this.props.actions.addUsers(
                   this.state.emailId,
                   this.state.password
-                );
+                ); */
+                }
+                this.signup(this.state.emailId, this.state.password);
                 this.props.navigation.goBack();
               }
             }}
@@ -114,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 20,
     marginRight: 20,
-    marginTop: Dimensions.get("window").height / 40 + 15,
-    backgroundColor: "transparent"
+    marginTop: Dimensions.get("window").height / 40 + 15
+    // backgroundColor: "#FFFFFF"
   }
 });

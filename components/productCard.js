@@ -17,16 +17,39 @@ import {
   Button,
   Image,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ActivityIndicatorIOS
 } from "react-native";
 import { NavigationActions } from "react-navigation";
-import { Item, Input } from "native-base";
+import { Item, Input, Spinner } from "native-base";
 
 export default class ProductCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    };
+  }
   render() {
     return (
       <View style={styles.ProductCard}>
-        <Image style={styles.img} source={{ uri: this.props.product.image }} />
+        <Image
+          style={styles.img}
+          source={{ uri: this.props.product.image }}
+          onLoadStart={() => this.setState({ loading: true })}
+          onLoadEnd={() => {
+            this.setState({ loading: false });
+          }}
+        >
+          {this.state.loading && (
+            <Spinner
+              style={{
+                marginTop: Dimensions.get("window").height / 6
+              }}
+              color="gray"
+            />
+          )}
+        </Image>
         <Text>Rs {this.props.product.price}</Text>
         <Text>{this.props.product.description}</Text>
         <Text>{this.props.product.category}</Text>

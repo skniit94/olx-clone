@@ -9,6 +9,7 @@ import * as productActions from "../actions/productActions";
 import { connect } from "react-redux";
 import ProductCard from "../components/productCard";
 import Slider from "react-native-slider";
+import * as firebase from "firebase";
 
 import React, { Component } from "react";
 import {
@@ -41,7 +42,7 @@ import {
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 const categories = [
   {
-    name: "Kids"
+    name: "Furniture"
   },
   {
     name: "Home"
@@ -62,7 +63,7 @@ const categories = [
     name: "Computers"
   },
   {
-    name: "Tools"
+    name: "Vehicle"
   },
   {
     name: "Automotive"
@@ -77,7 +78,7 @@ const categories = [
     name: "Sports"
   },
   {
-    name: "Movies"
+    name: "Electronics"
   },
   {
     name: "Jewelery"
@@ -91,6 +92,15 @@ class HomeScreen extends Component {
       showText: false,
       modalVisible: false
     };
+  }
+  async logout() {
+    try {
+      await firebase.auth().signOut();
+
+      // Navigate to login view
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   setModalVisible(visible) {
@@ -126,7 +136,10 @@ class HomeScreen extends Component {
     return (
       <FlatList
         data={filteredProducts}
-        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+        contentContainerStyle={{
+          flexDirection: "row",
+          flexWrap: "wrap"
+        }}
         renderItem={({ item }) => (
           <View>
             <TouchableOpacity
@@ -152,7 +165,14 @@ class HomeScreen extends Component {
     console.log("render //////");
     console.log(this.props);
     return (
-      <View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#FFFFFF",
+          width: "100%",
+          height: "100%"
+        }}
+      >
         {/* <Button
           color="#841584"
           title="Back"
@@ -162,9 +182,17 @@ class HomeScreen extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate("Login")}
+              onPress={() => {
+                {
+                  /* this.logout(); */
+                }
+                {
+                  /* this.props.navigation.navigate("Login"); */
+                }
+                this.props.navigation.goBack();
+              }}
             >
-              <Icon name="arrow-back" />
+              <Icon name="log-out" />
             </Button>
           </Left>
           <Body>
@@ -181,7 +209,37 @@ class HomeScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <View>{this.renderlist()}</View>
+        <View style={{ flex: 1 }}>{this.renderlist()}</View>
+        <Footer>
+          <FooterTab>
+            <Button vertical>
+              <Icon name="chatboxes" />
+              <Text>Chats</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => {
+                this.props.navigation.navigate("Sell");
+              }}
+            >
+              <Icon name="camera" />
+              <Text>Sell</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => {
+                this.props.navigation.navigate("MyAds");
+              }}
+            >
+              <Icon name="albums" />
+              <Text>My Ads</Text>
+            </Button>
+            <Button vertical>
+              <Icon name="person" />
+              <Text>Profile</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
         <Modal
           animationType="slide"
           transparent={false}
@@ -220,20 +278,22 @@ class HomeScreen extends Component {
             <MultiSlider
               style={styles.mulitSlider}
               values={[this.props.priceRange[0], this.props.priceRange[1]]}
-              values={[20, 500]}
+              /*values={[20, 500]}*/
               sliderLength={Dimensions.get("window").width - 20}
               containerStyle={{
                 height: Dimensions.get("window").height / 40 + 5
               }}
-              onValuesChange={values => {
+              /* onValuesChange={values => {
                 this.props.actions.setPriceRange(values);
-              }}
+              }} */
               onValuesChangeStart={() => {
                 this.props.actions.togglePriceFilter(true);
               }}
-              /* onValuesChangeFinish={this.multiSliderOneValuesChangeFinish} */
+              onValuesChangeFinish={values => {
+                this.props.actions.setPriceRange(values);
+              }}
               min={0}
-              max={1000}
+              max={100000}
               step={1}
               snapped
             />
@@ -241,14 +301,15 @@ class HomeScreen extends Component {
             <Text style={styles.to}>To: Rs {this.props.priceRange[1]}</Text>
             <Text style={styles.chooseCategory}>Choose Category</Text>
             <View style={styles.categoryCard}>
-              <FlatList
-                data={categories}
-                contentContainerStyle={{
+              <View
+                style={{
                   flexDirection: "row",
-                  flexWrap: "wrap"
+                  flexWrap: "wrap",
+                  borderWidth: 1
                 }}
-                renderItem={({ item }) => (
-                  <View>
+              >
+                {/* {categories.map(item => {
+                  return (
                     <Button
                       transparent
                       onPress={() => {
@@ -257,9 +318,98 @@ class HomeScreen extends Component {
                     >
                       <Text>{item.name}</Text>
                     </Button>
-                  </View>
-                )}
-              />
+                  );
+                })} */}
+                {/* <Text>abc123</Text> */}
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Furniture");
+                  }}
+                >
+                  <Text>Furniture</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Electronics");
+                  }}
+                >
+                  <Text>Electronics</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Vehicle");
+                  }}
+                >
+                  <Text>Vehicle</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Home");
+                  }}
+                >
+                  <Text>Home</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Music");
+                  }}
+                >
+                  <Text>Music</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Games");
+                  }}
+                >
+                  <Text>Games</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Jewelery");
+                  }}
+                >
+                  <Text>Jewelery</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Kids");
+                  }}
+                >
+                  <Text>Kids</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Computers");
+                  }}
+                >
+                  <Text>Computers</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Kitchen");
+                  }}
+                >
+                  <Text>Kitchen</Text>
+                </Button>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.actions.setCategory("Clothing");
+                  }}
+                >
+                  <Text>Clothing</Text>
+                </Button>
+              </View>
             </View>
             <Footer>
               <FooterTab>

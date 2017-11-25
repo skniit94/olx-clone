@@ -101,7 +101,7 @@ class ProfileScreen extends Component {
                         small
                         source={{
                           uri:
-                            "/Users/saurabhkumar/Sites/projects/olx-clone/phone.png"
+                            "/Users/saurabhkumar/Sites/projects/olx-clone/images/phone.png"
                         }}
                       />
                       <Thumbnail
@@ -109,7 +109,7 @@ class ProfileScreen extends Component {
                         small
                         source={{
                           uri:
-                            "/Users/saurabhkumar/Sites/projects/olx-clone/msg.jpg"
+                            "/Users/saurabhkumar/Sites/projects/olx-clone/images/msg.jpg"
                         }}
                       />
                       <Thumbnail
@@ -117,7 +117,7 @@ class ProfileScreen extends Component {
                         small
                         source={{
                           uri:
-                            "/Users/saurabhkumar/Sites/projects/olx-clone/fb.png"
+                            "/Users/saurabhkumar/Sites/projects/olx-clone/images/fb.png"
                         }}
                       />
                     </View>

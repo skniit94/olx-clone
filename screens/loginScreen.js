@@ -15,18 +15,30 @@ import {
   View,
   TextInput,
   Button,
-  Image
+  Image,
+  Dimensions
 } from "react-native";
 import * as Expo from "expo";
 import { Item, Input } from "native-base";
 import { NavigationActions } from "react-navigation";
+import * as firebase from "firebase";
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { emailId: "", password: "" };
   }
+  async login(email, pass) {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, pass);
 
+      console.log("Logged In!");
+      this.props.navigation.navigate("Home");
+    } catch (error) {
+      console.log(error.toString());
+      alert("Incorrect Email or Password");
+    }
+  }
   authenticateUser() {
     const obj = { username: this.state.emailId, password: this.state.password };
     console.log(obj);
@@ -39,12 +51,29 @@ class LoginScreen extends Component {
     if (this.props.users.find(findUser)) this.props.navigation.navigate("Home");
     else alert("Incorrect Email or Password");
   }
+  componentWillMount() {
+    console.log("firebase.auth().currentUser", firebase.auth().currentUser);
+    if (firebase.auth().currentUser) {
+      this.props.navigation.navigate("Home");
+    }
+  }
   render() {
     // console.log("before", this.props.users);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 60 }}> OLX </Text>
+          {/* <Text style={{ fontSize: 60 }}> OLX </Text> */}
+          <Image
+            style={{
+              height: Dimensions.get("window").height / 5,
+              width: Dimensions.get("window").width / 3
+              // marginTop: 2
+              // marginBottom: Dimensions.get("window").height / 40 + 5
+            }}
+            source={{
+              uri: "/Users/saurabhkumar/Sites/projects/images/olx-clone/olx.jpg"
+            }}
+          />
           <Text>To start buying and selling </Text>
         </View>
         <View style={styles.login}>
@@ -66,15 +95,30 @@ class LoginScreen extends Component {
             title="LOGIN"
             style={styles.loginButton}
             onPress={() => {
-              this.authenticateUser();
+              {
+                /* this.authenticateUser(); */
+              }
+              this.login(this.state.emailId, this.state.password);
             }}
           />
         </View>
-        <Text style={{ fontSize: 11 }}>
+        <Text
+          style={{
+            fontSize: 11,
+            backgroundColor: "transparent",
+            color: "white"
+          }}
+        >
           By continuing, you agree to our Terms and Conditions
         </Text>
         <View style={styles.header}>
-          <Text>Don't have an account?</Text>
+          <Text
+            style={{
+              color: "white"
+            }}
+          >
+            Don't have an account?
+          </Text>
           <Button
             color="#841584"
             title="SIGNUP"
@@ -87,12 +131,13 @@ class LoginScreen extends Component {
         <Image
           style={{
             position: "absolute",
-            width: "100%",
-            height: "100%",
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
             zIndex: -1
           }}
           source={{
-            uri: "/Users/saurabhkumar/Sites/projects/olx-clone/image1.jpg"
+            uri:
+              "/Users/saurabhkumar/Sites/projects/olx-clone/images/image1.jpg"
           }}
         />
       </View>
@@ -115,12 +160,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent"
+    backgroundColor: "#FFFFFF",
+    width: "100%",
+    height: "100%"
   },
   header: {
     alignSelf: "stretch",
     alignItems: "center",
-    marginTop: 100,
+    marginTop: Dimensions.get("window").height / 10,
     marginBottom: 80,
     backgroundColor: "transparent"
     // borderWidth: 10

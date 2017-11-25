@@ -8,7 +8,7 @@ export default function reducer(
     error: null,
     category: "",
     applyPriceFilter: false,
-    priceRange: [0, 500]
+    priceRange: [0, 50000]
   },
   action
 ) {

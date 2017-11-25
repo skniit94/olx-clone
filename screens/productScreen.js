@@ -36,9 +36,16 @@ import {
   Body
 } from "native-base";
 import { NavigationActions } from "react-navigation";
-import { Item, Input } from "native-base";
+import { Item, Input, Spinner } from "native-base";
 
 class ProductScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showText: false,
+      modalVisible: false
+    };
+  }
   componentWillMount() {
     this.props.actions.fetchUsers();
   }
@@ -46,8 +53,17 @@ class ProductScreen extends Component {
     const users = this.props.users;
     if (this.props.fetchedUsers == false) {
       return (
-        <View style={styles.container}>
-          <Text>Loading</Text>
+        <View
+          style={{
+            backgroundColor: "#FFFFFF",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "center"
+          }}
+        >
+          <Spinner color="gray" />
         </View>
       );
     } else {
@@ -90,7 +106,20 @@ class ProductScreen extends Component {
                   uri: product.image
                   /* uri: "/Users/saurabhkumar/Sites/projects/olx-clone/image1.jpg" */
                 }}
-              />
+                onLoadStart={() => this.setState({ loading: true })}
+                onLoadEnd={() => {
+                  this.setState({ loading: false });
+                }}
+              >
+                {this.state.loading && (
+                  <Spinner
+                    style={{
+                      marginTop: Dimensions.get("window").height / 10
+                    }}
+                    color="gray"
+                  />
+                )}
+              </Image>
               <Card style={styles.detailsCard}>
                 <CardItem>
                   <Body>
