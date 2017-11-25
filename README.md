@@ -1,9 +1,9 @@
 # olx-clone
 Native mobile app built using `React Native` and `Redux`. Features of official OLX app are implemented upto some extent. `fakerJs` is used to generate temporary data and `json-server` is used as the server.
 
-## Preview - 
+## Preview 
 
-![ios-demo](./demo/dmeo.gif)
+![ios-demo](./demo/demo.gif)
 
 ## Dependencies
 - React Native
