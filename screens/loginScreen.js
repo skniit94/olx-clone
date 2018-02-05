@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import * as loginActions from "../actions/loginActions";
@@ -44,7 +38,7 @@ class LoginScreen extends Component {
     console.log(obj);
     mail = this.state.emailId;
     pass = this.state.password;
-    findUser = function(user) {
+    findUser = function (user) {
       return user.username === this.mail && user.password === this.pass;
     };
     console.log("before", this.props.users);
@@ -137,7 +131,7 @@ class LoginScreen extends Component {
           }}
           source={{
             uri:
-              "/Users/saurabhkumar/Sites/projects/olx-clone/images/image1.jpg"
+            "/Users/saurabhkumar/Sites/projects/olx-clone/images/image1.jpg"
           }}
         />
       </View>

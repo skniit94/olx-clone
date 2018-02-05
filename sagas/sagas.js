@@ -1,6 +1,5 @@
 import { put, takeEvery, all, call } from "redux-saga/effects";
 import axios from "axios";
-import faker from "faker";
 import * as firebase from "firebase";
 
 const auth_token = "PUPFRGrEmG6TKijv6dXYiTiJEOgzqQ0vYfeKZDvr";
@@ -34,7 +33,7 @@ const fetchproductData = () => {
   // });
   return axios
     .get(
-      "https://myproject-42420.firebaseio.com/products.json?auth=" + auth_token
+    "https://myproject-42420.firebaseio.com/products.json?auth=" + auth_token
     )
     .then(response => {
       console.log(response);
@@ -110,6 +109,5 @@ const fetchadData = () => {
     });
 };
 
-// fetchAds
 
 export default rootSaga;
